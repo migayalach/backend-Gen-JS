@@ -1,18 +1,24 @@
 const { response } = require("express");
 const { userCreate, userGetAll } = require("../controllers/usersControllers");
 
-const postUser = (request, response) => {
+const postUser = async (request, response) => {
+  const { nameUser, lastNameUser, emailUser, passwordUser } = request.body;
   try {
-    const data = userCreate();
+    const data = await userCreate(
+      nameUser,
+      lastNameUser,
+      emailUser,
+      passwordUser
+    );
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
 };
 
-const getUserAll = (request, response) => {
+const getUserAll = async (request, response) => {
   try {
-    const data = userGetAll();
+    const data = await userGetAll();
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
