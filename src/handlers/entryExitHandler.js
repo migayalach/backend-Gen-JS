@@ -4,8 +4,9 @@ const {
 } = require("../controllers/entryExitController");
 
 const postActivity = async (request, response) => {
+  const { idUser, idEntryExit } = request.body;
   try {
-    const data = await postRegActivity();
+    const data = await postRegActivity(idUser, idEntryExit);
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
