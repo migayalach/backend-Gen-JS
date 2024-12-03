@@ -5,7 +5,7 @@ use genesis
 create table product(
   idProduct INT AUTO_INCREMENT NOT NULL,
   nameProduct VARCHAR(20) NOT NULL,
-  codeProduct VARCHAR(20) NOT NULL,
+  codeProduct unique VARCHAR(20) NOT NULL,
   priceProduct DECIMAL(10, 2) NOT NULL,
   urlProduct TEXT,
   stockProduct INT DEFAULT 0,
