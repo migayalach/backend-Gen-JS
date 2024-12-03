@@ -1,0 +1,35 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This is that project finish at database course where I do all points given by the teacher.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/migayalach/backend-Gen.git"
+  },
+  "keywords": [
+    "mysql",
+    "express",
+    "server"
+  ],
+  "author": "Genesis Cusi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/migayalach/backend-Gen-JS"
+  },
+  "homepage": "https://github.com/migayalach/backend-Gen#readme",
+  "dependencies": {
+    "axios": "^1.7.8",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.6",
+    "express": "^4.21.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
