@@ -6,45 +6,89 @@ const {
   updateProduct,
 } = require("../controllers/productControllers");
 
-const postProduct = (request, response) => {
+const postProduct = async (request, response) => {
+  const {
+    nameProduct,
+    codeProduct,
+    priceProduct,
+    urlProduct,
+    stockProduct,
+    madeProduct,
+    sizeProduct,
+    dateIntroProduct,
+  } = request.body;
   try {
-    const data = productCreate();
+    const data = await productCreate(
+      nameProduct,
+      codeProduct,
+      priceProduct,
+      urlProduct,
+      stockProduct,
+      madeProduct,
+      sizeProduct,
+      dateIntroProduct
+    );
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
 };
 
-const getAllProduct = (request, response) => {
+const getAllProduct = async (request, response) => {
   try {
-    const data = getAllProducts();
+    const data = await getAllProducts();
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
 };
 
-const getIdProduct = (request, response) => {
+const getIdProduct = async (request, response) => {
+  const { idProduct } = request.params;
   try {
-    const data = getIdProducts();
+    const data = await getIdProducts(idProduct);
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
 };
 
-const removeProduct = (request, response) => {
+const removeProduct = async (request, response) => {
+  const { idProduct } = request.params;
   try {
-    const data = deleteProduct();
+    const data = await deleteProduct(idProduct);
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
 };
 
-const putProduct = (request, response) => {
+const putProduct = async (request, response) => {
+  const {
+    idProduct,
+    nameProduct,
+    codeProduct,
+    priceProduct,
+    urlProduct,
+    stockProduct,
+    madeProduct,
+    sizeProduct,
+    dateIntroProduct,
+    stateProduct,
+  } = request.body;
   try {
-    const data = updateProduct();
+    const data = await updateProduct(
+      idProduct,
+      nameProduct,
+      codeProduct,
+      priceProduct,
+      urlProduct,
+      stockProduct,
+      madeProduct,
+      sizeProduct,
+      dateIntroProduct,
+      stateProduct
+    );
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
