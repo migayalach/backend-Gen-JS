@@ -2,4 +2,8 @@ const userCreate = () => {
   return "create user";
 };
 
-module.exports = { userCreate };
+const userGetAll = () => {
+  return "all users";
+};
+
+module.exports = { userCreate, userGetAll };
