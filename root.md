@@ -1,0 +1,41 @@
+```
+└── 📁backend
+    └── 📁src
+        └── 📁controllers
+            └── entryExitController.js
+            └── loginController.js
+            └── productAuditController.js
+            └── productControllers.js
+            └── usersControllers.js
+        └── 📁database
+            └── conexion.js
+            └── dataBase.sql
+            └── E-R.png
+        └── 📁handlers
+            └── entryExitHandler.js
+            └── loginHandler.js
+            └── productAuditHandler.js
+            └── productHandler.js
+            └── userHandler.js
+        └── 📁helpers
+            └── index.js
+        └── 📁middlewares
+            └── index.js
+        └── 📁routes
+            └── entryExitRoute.js
+            └── index.js
+            └── loginRoute.js
+            └── productAuditRoute.js
+            └── productRoute.js
+            └── userRouter.js
+        └── 📁utils
+            └── productAuditUtils.js
+            └── userUtils.js
+        └── app.js
+    └── .env
+    └── .gitignore
+    └── index.js
+    └── package-lock.json
+    └── package.json
+    └── README.md
+```
