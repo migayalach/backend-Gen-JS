@@ -6,7 +6,7 @@ create table product(
   idProduct INT AUTO_INCREMENT NOT NULL,
   nameProduct VARCHAR(20) NOT NULL,
   codeProduct VARCHAR(20) NOT NULL,
-  priceProduct FLOAT(10, 2) NOT NULL,
+  priceProduct DECIMAL(10, 2) NOT NULL,
   urlProduct TEXT,
   stockProduct INT DEFAULT 0,
   madeProduct VARCHAR(20) NOT NULL,
