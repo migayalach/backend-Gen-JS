@@ -38,13 +38,11 @@ create table entryExit(
 );
 
 create table productAction(
-  idProduct int not null,
   idUser int not null,
   idAction int not null,
   timeAction time not null,
   oldData JSON,
   newData JSON,
-  FOREIGN KEY(idProduct) REFERENCES product(idProduct),
   FOREIGN KEY(idUser) REFERENCES user(idUser),
   FOREIGN KEY(idAction) REFERENCES actions(idAction) 
 );
