@@ -7,3 +7,8 @@ Esos campos deben almacenar información numérica, correo electrónico y nombre
 - Manejar los errores que devuelve la base de datos (TRY CATCH)
 - En base a permisos deben trabajar con el enmascaramiento
 - Deben mostrar los logs de auditoria de la base de datos con todos los cambios y comandos ejecutados.
+
+
+ADMINISTRADOR: ACCESTO TOTAL
+DUEÑO: LIMITADO, PRODUCTOS, CRUD
+VENDEROR: COMUN SOLO VER PRODUCTOS
