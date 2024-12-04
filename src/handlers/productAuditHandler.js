@@ -4,10 +4,9 @@ const {
 } = require("../controllers/productAuditController");
 
 const postAuditProduct = async (request, response) => {
-  const { idProduct, idUser, idAction, oldData, newData } = request.body;
+  const { idUser, idAction, oldData, newData } = request.body;
   try {
     const data = await addAuditProduct(
-      idProduct,
       idUser,
       idAction,
       oldData,
