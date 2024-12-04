@@ -1,6 +1,6 @@
 const pool = require("../database/conexion");
 
-const postRegActivity = async (idUser, idEntryExit) => {
+const postRegActivity = async (idUser, idEntryExit) => { 
   const currentDate = new Date();
   await pool.query(
     `INSERT INTO entryExitUser (idUser, idEntryExit, timeEntryExit) VALUES (?,?,?)`,
