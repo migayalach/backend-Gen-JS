@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/migayalach/backend-Gen.git"
+    "url": "git+https://github.com/migayalach/backend-Gen-JS.git"
   },
   "keywords": [
     "mysql",
