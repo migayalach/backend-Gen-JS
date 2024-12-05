@@ -1,14 +1,15 @@
 const pool = require("../database/conexion");
 const { resAllUser, hashedPassword } = require("../utils/userUtils");
+const generator = require("generate-password");
 
 const userGetAll = async () => {
   const [data] = await pool.query(
-    `SELECT idUser, nameUser, lastNameUser, emailUser FROM user`
+    `SELECT u.idUser, l.idLevel, l.nameLevel, u.nameUser, u.lastNameUser, emailUser FROM user u, level l WHERE u.idLevel = l.idLevel`
   );
   return resAllUser(data);
 };
 
-const userCreate = async (nameUser, lastNameUser, emailUser, passwordUser) => {
+const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
   const [emailExist] = await pool.query(
     `SELECT emailUser FROM user WHERE emailUser = ?`,
     [emailUser]
@@ -18,13 +19,65 @@ const userCreate = async (nameUser, lastNameUser, emailUser, passwordUser) => {
     throw Error(`Este email ya se encuetra registrado`);
   }
 
-  const password = await hashedPassword(passwordUser);
+  const password = generator.generate({
+    length: 12,
+    numbers: true,
+    uppercase: true,
+    symbols: true,
+  });
+
+  console.log("envio a email la contraseña", password);
 
   await pool.query(
-    `INSERT INTO user (nameUser, lastNameUser, emailUser, passwordUser) VALUES(?, ?, ?, ?)`,
-    [nameUser, lastNameUser, emailUser, password]
+    `INSERT INTO user (idLevel, nameUser, lastNameUser, emailUser, passwordUser) VALUES(?, ?, ?, ?, ?)`,
+    [idLevel, nameUser, lastNameUser, emailUser, await hashedPassword(password)]
   );
   return { state: "create-user", data: await userGetAll() };
 };
 
-module.exports = { userCreate, userGetAll };
+const userRegister = async (
+  nameUser,
+  lastNameUser,
+  emailUser,
+  passwordUser
+) => {
+  const [emailExist] = await pool.query(
+    `SELECT emailUser FROM user WHERE emailUser = ?`,
+    [emailUser]
+  );
+
+  if (emailExist.length) {
+    throw Error(`Este email ya se encuetra registrado`);
+  }
+
+  const [idUser] = await pool.query(`SELECT COUNT(idUser) as Users FROM user`);
+
+  const password = await hashedPassword(passwordUser);
+
+  const [data] = await pool.query(
+    `INSERT INTO user (idLevel, nameUser, lastNameUser, emailUser, passwordUser) VALUES(?, ?, ?, ?, ?)`,
+    [idUser[0].Users === 0 ? 1 : 3, nameUser, lastNameUser, emailUser, password]
+  );
+
+  return {
+    state: "login",
+    access: true,
+    data: {
+      idUser: data.insertId,
+      nameUser,
+      message: `Wellcome ${nameUser}`,
+    },
+  };
+};
+
+const userUpdate = async (
+  idLevel,
+  nameUser,
+  lastNameUser,
+  emailUser,
+  passwordUser
+) => {
+  return ":D"
+};
+
+module.exports = { userCreate, userRegister, userGetAll, userUpdate };
