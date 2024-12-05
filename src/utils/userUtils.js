@@ -10,12 +10,16 @@ function encryEmail(email) {
 }
 
 function resAllUser(list) {
-  return list.map(({ idUser, nameUser, lastNameUser, emailUser }) => ({
-    idUser,
-    nameUser,
-    lastNameUser,
-    emailUser: encryEmail(emailUser),
-  }));
+  return list.map(
+    ({ idUser, idLevel, nameLevel, nameUser, lastNameUser, emailUser }) => ({
+      idUser,
+      idLevel,
+      nameLevel,
+      nameUser,
+      lastNameUser,
+      emailUser: encryEmail(emailUser),
+    })
+  );
 }
 
 const hashedPassword = async (password) => await bcrypt.hash(password, 10);
