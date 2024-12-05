@@ -30,15 +30,14 @@ const getUserAll = async (request, response) => {
 };
 
 const putUser = async (request, response) => {
-  const { idLevel, nameUser, lastNameUser, emailUser, passwordUser } =
-    request.body;
+  const { idUser, idLevel, nameUser, lastNameUser, emailUser } = request.body;
   try {
     const data = await userUpdate(
+      idUser,
       idLevel,
       nameUser,
       lastNameUser,
-      emailUser,
-      passwordUser
+      emailUser
     );
     response.status(200).json(data);
   } catch (error) {
