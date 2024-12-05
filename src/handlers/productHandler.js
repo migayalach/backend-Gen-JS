@@ -4,6 +4,7 @@ const {
   getIdProducts,
   deleteProduct,
   updateProduct,
+  seeRemoveProducts
 } = require("../controllers/productControllers");
 
 const postProduct = async (request, response) => {
@@ -35,8 +36,9 @@ const postProduct = async (request, response) => {
 };
 
 const getAllProduct = async (request, response) => {
+  const { flag } = request.query;
   try {
-    const data = await getAllProducts();
+    const data = flag === "delete" ? await seeRemoveProducts() : await getAllProducts();
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
