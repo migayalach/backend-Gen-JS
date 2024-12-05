@@ -37,7 +37,9 @@ const productCreate = async (
 };
 
 const getAllProducts = async () => {
-  const [data] = await pool.query(`SELECT * FROM product`);
+  const [data] = await pool.query(
+    `SELECT * FROM product WHERE isDeletedProduct = false`
+  );
   return data;
 };
 
@@ -53,8 +55,11 @@ const getIdProducts = async (idProduct) => {
 
 const deleteProduct = async (idProduct) => {
   await getIdProducts(idProduct);
-  await pool.query(`DELETE FROM product WHERE idProduct = ? `, [idProduct]);
-  return { state: "product-delete" };
+  await pool.query(
+    `UPDATE product SET isDeletedProduct = ? WHERE idProduct = ?`,
+    [true, idProduct]
+  );
+  return { state: "product-delete", data: await getAllProducts() };
 };
 
 const updateProduct = async (
@@ -95,10 +100,18 @@ const updateProduct = async (
   return getIdProducts(idProduct);
 };
 
+const seeRemoveProducts = async () => {
+  const [data] = await pool.query(
+    `SELECT * FROM product WHERE isDeletedProduct = true`
+  );
+  return data;
+};
+
 module.exports = {
   productCreate,
   getAllProducts,
   getIdProducts,
   deleteProduct,
   updateProduct,
+  seeRemoveProducts,
 };
