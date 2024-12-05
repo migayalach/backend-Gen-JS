@@ -26,12 +26,12 @@ const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
     symbols: true,
   });
 
-  console.log("envio a email la contraseña", password);
-
   await pool.query(
     `INSERT INTO user (idLevel, nameUser, lastNameUser, emailUser, passwordUser) VALUES(?, ?, ?, ?, ?)`,
     [idLevel, nameUser, lastNameUser, emailUser, await hashedPassword(password)]
   );
+
+  console.log("envio a email la contraseña", password);
   return { state: "create-user", data: await userGetAll() };
 };
 
@@ -59,6 +59,7 @@ const userRegister = async (
     [idUser[0].Users === 0 ? 1 : 3, nameUser, lastNameUser, emailUser, password]
   );
 
+  console.log("envio un daludo de bienvenida a email");
   return {
     state: "login",
     access: true,
@@ -71,13 +72,21 @@ const userRegister = async (
 };
 
 const userUpdate = async (
+  idUser,
   idLevel,
   nameUser,
   lastNameUser,
-  emailUser,
-  passwordUser
+  emailUser
 ) => {
-  return ":D"
+  await pool.query(
+    `UPDATE user SET idLevel = ?, nameUser = ?, lastNameUser = ?, emailUser = ? WHERE idUser = ?`,
+    [idLevel, nameUser, lastNameUser, emailUser, idUser]
+  );
+
+  return {
+    state: "edit-user",
+    data: await userGetAll(),
+  };
 };
 
 module.exports = { userCreate, userRegister, userGetAll, userUpdate };
