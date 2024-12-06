@@ -36,6 +36,17 @@ function info(data, page, site) {
 }
 
 function responseData(results, page, site) {
+  if (!results.length) {
+    return {
+      info: {
+        count: 0,
+        pages: 0,
+        next: null,
+        prev: null,
+      },
+      results: [],
+    };
+  }
   return {
     info: info(results, page, site),
     results: responseResults(results, page),
