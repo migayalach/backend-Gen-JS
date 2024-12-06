@@ -4,7 +4,7 @@ const {
   getIdProducts,
   deleteProduct,
   updateProduct,
-  seeRemoveProducts
+  seeRemoveProducts,
 } = require("../controllers/productControllers");
 
 const postProduct = async (request, response) => {
@@ -15,7 +15,7 @@ const postProduct = async (request, response) => {
     urlProduct,
     stockProduct,
     madeProduct,
-    sizeProduct,
+    descriptionProduct,
     dateIntroProduct,
   } = request.body;
   try {
@@ -26,7 +26,7 @@ const postProduct = async (request, response) => {
       urlProduct,
       stockProduct,
       madeProduct,
-      sizeProduct,
+      descriptionProduct,
       dateIntroProduct
     );
     response.status(200).json(data);
@@ -36,15 +36,17 @@ const postProduct = async (request, response) => {
 };
 
 const getAllProduct = async (request, response) => {
-  const { flag } = request.query;
+  const { flag, page } = request.query;
   try {
-    const data = flag === "delete" ? await seeRemoveProducts() : await getAllProducts();
+    const data =
+      flag === "delete"
+        ? await seeRemoveProducts(page)
+        : await getAllProducts(page);
     response.status(200).json(data);
   } catch (error) {
-    response.status(400).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
 };
-
 const getIdProduct = async (request, response) => {
   const { idProduct } = request.params;
   try {
@@ -74,7 +76,7 @@ const putProduct = async (request, response) => {
     urlProduct,
     stockProduct,
     madeProduct,
-    sizeProduct,
+    descriptionProduct,
     dateIntroProduct,
     stateProduct,
   } = request.body;
@@ -87,7 +89,7 @@ const putProduct = async (request, response) => {
       urlProduct,
       stockProduct,
       madeProduct,
-      sizeProduct,
+      descriptionProduct,
       dateIntroProduct,
       stateProduct
     );
