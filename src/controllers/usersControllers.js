@@ -1,12 +1,26 @@
 const pool = require("../database/conexion");
 const { resAllUser, hashedPassword } = require("../utils/userUtils");
 const generator = require("generate-password");
+const responseData = require("../utils/response");
 
-const userGetAll = async () => {
+const requestUserDB = async () => {
   const [data] = await pool.query(
     `SELECT u.idUser, l.idLevel, l.nameLevel, u.nameUser, u.lastNameUser, emailUser FROM user u, level l WHERE u.idLevel = l.idLevel`
   );
-  return resAllUser(data);
+  return data;
+};
+
+const userGetAll = async () => {
+  const data = await requestUserDB();
+  return responseData(resAllUser(data), (page = 1), "user");
+};
+
+const userGetAllPage = async (page) => {
+  if (page < 1) {
+    page = 1;
+  }
+  const data = await requestUserDB();
+  return responseData(resAllUser(data), page, "user");
 };
 
 const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
@@ -89,4 +103,10 @@ const userUpdate = async (
   };
 };
 
-module.exports = { userCreate, userRegister, userGetAll, userUpdate };
+module.exports = {
+  userCreate,
+  userRegister,
+  userGetAll,
+  userGetAllPage,
+  userUpdate,
+};
