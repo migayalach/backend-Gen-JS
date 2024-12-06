@@ -2,17 +2,11 @@ const pool = require("../database/conexion");
 const { resAllUser, hashedPassword } = require("../utils/userUtils");
 const generator = require("generate-password");
 const responseData = require("../utils/response");
-
-const requestUserDB = async () => {
-  const [data] = await pool.query(
-    `SELECT u.idUser, l.idLevel, l.nameLevel, u.nameUser, u.lastNameUser, emailUser FROM user u, level l WHERE u.idLevel = l.idLevel`
-  );
-  return data;
-};
+const { requestUserDB } = require("./allQueryDB");
 
 const userGetAll = async () => {
   const data = await requestUserDB();
-  return responseData(resAllUser(data), (page = 1), "user");
+  return responseData(resAllUser(data), (page = 1), "user?");
 };
 
 const userGetAllPage = async (page) => {
@@ -20,7 +14,7 @@ const userGetAllPage = async (page) => {
     page = 1;
   }
   const data = await requestUserDB();
-  return responseData(resAllUser(data), page, "user");
+  return responseData(resAllUser(data), page, "user?");
 };
 
 const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
