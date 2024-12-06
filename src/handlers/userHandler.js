@@ -3,6 +3,7 @@ const {
   userCreate,
   userRegister,
   userGetAll,
+  userGetAllPage,
   userUpdate,
 } = require("../controllers/usersControllers");
 
@@ -21,8 +22,9 @@ const postUser = async (request, response) => {
 };
 
 const getUserAll = async (request, response) => {
+  const { page } = request.query;
   try {
-    const data = await userGetAll();
+    const data = page ? await userGetAllPage(page) : await userGetAll();
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
