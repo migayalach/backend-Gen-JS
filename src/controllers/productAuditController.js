@@ -1,5 +1,6 @@
 const pool = require("../database/conexion");
 const { clearAuditProduct } = require("../utils/productAuditUtils");
+const responseData = require("../utils/response");
 
 const addAuditProduct = async (idUser, idAction, oldData, newData) => {
   const currentDate = new Date();
@@ -16,11 +17,15 @@ const addAuditProduct = async (idUser, idAction, oldData, newData) => {
   return;
 };
 
-const getAllAuditProduct = async () => {
+const getAllAuditProduct = async (page) => {
+  if (!page) {
+    page = 1;
+  }
   const [data] = await pool.query(
     `SELECT u.nameUser, a.nameAction, pa.timeAction, pa.oldData, pa.newData FROM user u, actions a, productAction pa WHERE pa.idUser = u.idUser AND pa.idAction = a.idAction`
   );
-  return clearAuditProduct(data);
+
+  return responseData(clearAuditProduct(data), page, "auditProduct?");
 };
 
 module.exports = {
