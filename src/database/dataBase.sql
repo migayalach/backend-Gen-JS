@@ -16,7 +16,7 @@ create table product(
   urlProduct TEXT,
   stockProduct INT DEFAULT 0,
   madeProduct VARCHAR(20) NOT NULL,
-  sizeProduct VARCHAR(5) NOT NULL,
+  descriptionProduct VARCHAR(255),
   dateIntroProduct DATE NOT NULL,
   stateProduct BOOLEAN DEFAULT TRUE NOT NULL,
   isDeletedProduct BOOLEAN DEFAULT FALSE,
