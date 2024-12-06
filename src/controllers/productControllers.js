@@ -1,4 +1,5 @@
 const pool = require("../database/conexion");
+const responseData = require("../utils/response");
 
 const productCreate = async (
   nameProduct,
@@ -7,7 +8,7 @@ const productCreate = async (
   urlProduct,
   stockProduct,
   madeProduct,
-  sizeProduct,
+  descriptionProduct,
   dateIntroProduct
 ) => {
   const [codeExist] = await pool.query(
@@ -19,8 +20,8 @@ const productCreate = async (
     throw Error(`Este codigo ya se encuentra registrado`);
   }
 
-  const [data] = await pool.query(
-    `INSERT INTO product (nameProduct, codeProduct, priceProduct, urlProduct, stockProduct, madeProduct, sizeProduct, dateIntroProduct) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+  await pool.query(
+    `INSERT INTO product (nameProduct, codeProduct, priceProduct, urlProduct, stockProduct, madeProduct, descriptionProduct, dateIntroProduct) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       nameProduct,
       codeProduct,
@@ -28,19 +29,22 @@ const productCreate = async (
       urlProduct,
       stockProduct,
       madeProduct,
-      sizeProduct,
+      descriptionProduct,
       dateIntroProduct,
     ]
   );
-
   return { state: "create-product", data: await getAllProducts() };
 };
 
-const getAllProducts = async () => {
+const getAllProducts = async (page) => {
+  if (!page) {
+    page = 1;
+  }
+
   const [data] = await pool.query(
     `SELECT * FROM product WHERE isDeletedProduct = false`
   );
-  return data;
+  return responseData(data, page, "product?");
 };
 
 const getIdProducts = async (idProduct) => {
@@ -70,7 +74,7 @@ const updateProduct = async (
   urlProduct,
   stockProduct,
   madeProduct,
-  sizeProduct,
+  descriptionProduct,
   dateIntroProduct,
   stateProduct
 ) => {
@@ -83,7 +87,7 @@ const updateProduct = async (
     throw Error(`Este codigo ya se encuentra registrado`);
   }
   await pool.query(
-    `UPDATE product SET nameProduct = ?, codeProduct = ?, priceProduct = ?, urlProduct = ?, stockProduct = ?, madeProduct = ?, sizeProduct = ?, dateIntroProduct = ?, stateProduct = ? WHERE idProduct = ?`,
+    `UPDATE product SET nameProduct = ?, codeProduct = ?, priceProduct = ?, urlProduct = ?, stockProduct = ?, madeProduct = ?, descriptionProduct = ?, dateIntroProduct = ?, stateProduct = ? WHERE idProduct = ?`,
     [
       nameProduct,
       codeProduct,
@@ -91,7 +95,7 @@ const updateProduct = async (
       urlProduct,
       stockProduct,
       madeProduct,
-      sizeProduct,
+      descriptionProduct,
       dateIntroProduct,
       stateProduct,
       idProduct,
@@ -100,11 +104,14 @@ const updateProduct = async (
   return getIdProducts(idProduct);
 };
 
-const seeRemoveProducts = async () => {
+const seeRemoveProducts = async (page) => {
+  if (!page) {
+    page = 1;
+  }
   const [data] = await pool.query(
     `SELECT * FROM product WHERE isDeletedProduct = true`
   );
-  return data;
+  return responseData(data, page, "product?flag=delete&");
 };
 
 module.exports = {
