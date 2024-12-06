@@ -14,8 +14,9 @@ const postActivity = async (request, response) => {
 };
 
 const getActivityAll = async (request, response) => {
+  const { page } = request.query;
   try {
-    const data = await getAllActivity();
+    const data = await getAllActivity(page);
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
