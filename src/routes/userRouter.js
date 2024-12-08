@@ -5,10 +5,11 @@ const {
   getIdUser,
   putUser,
 } = require("../handlers/userHandler");
+const { userMiddleware } = require("../middlewares/userMiddleware");
 const userRouter = Router();
 
 userRouter.post("/", postUser);
-userRouter.get("/", getUserAll);
+userRouter.get("/", userMiddleware, getUserAll);
 userRouter.get("/:idUser", getIdUser);
 userRouter.put("/", putUser);
 
