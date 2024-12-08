@@ -4,21 +4,32 @@ const generator = require("generate-password");
 const responseData = require("../utils/response");
 const { requestUserDB } = require("./allQueryDB");
 
-const userGetAll = async () => {
+const userGetAll = async (access) => {
   const data = await requestUserDB();
-  return responseData(resAllUser(data), (page = 1), "user?");
+  return responseData(
+    resAllUser(data, access),
+    (page = 1),
+    `user?access=${access}&`
+  );
 };
 
-const userGetAllPage = async (page) => {
+const userGetAllPage = async (access, page) => {
   if (page < 1) {
     page = 1;
   }
   const data = await requestUserDB();
-  return responseData(resAllUser(data), page, "user?");
+  return responseData(resAllUser(data, access), page, `user?access=${access}&`);
 };
 
 const getUserId = async (idUser) => {
-  return ":D";
+  const [data] = await pool.query(
+    `SELECT u.idUser, l.idLevel, l.nameLevel, u.nameUser, u.lastNameUser, emailUser FROM user u, level l WHERE u.idLevel = l.idLevel AND idUser = ?`,
+    [idUser]
+  );
+  if (!data.length) {
+    throw Error(`El usuario actual no se encuentra registrado`);
+  }
+  return data;
 };
 
 const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
