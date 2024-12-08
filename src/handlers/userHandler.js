@@ -3,6 +3,7 @@ const {
   userCreate,
   userRegister,
   userGetAll,
+  getUserId,
   userGetAllPage,
   userUpdate,
 } = require("../controllers/usersControllers");
@@ -31,6 +32,16 @@ const getUserAll = async (request, response) => {
   }
 };
 
+const getIdUser = async (request, response) => {
+  try {
+    const { idUser } = request.params;
+    const data = await getUserId(idUser);
+    response.status(200).json(data);
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+};
+
 const putUser = async (request, response) => {
   const { idUser, idLevel, nameUser, lastNameUser, emailUser } = request.body;
   try {
@@ -47,4 +58,4 @@ const putUser = async (request, response) => {
   }
 };
 
-module.exports = { postUser, getUserAll, putUser };
+module.exports = { postUser, getUserAll, getIdUser, putUser };

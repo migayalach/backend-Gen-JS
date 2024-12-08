@@ -17,6 +17,10 @@ const userGetAllPage = async (page) => {
   return responseData(resAllUser(data), page, "user?");
 };
 
+const getUserId = async (idUser) => {
+  return ":D";
+};
+
 const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
   const [emailExist] = await pool.query(
     `SELECT emailUser FROM user WHERE emailUser = ?`,
@@ -101,6 +105,7 @@ module.exports = {
   userCreate,
   userRegister,
   userGetAll,
+  getUserId,
   userGetAllPage,
   userUpdate,
 };
