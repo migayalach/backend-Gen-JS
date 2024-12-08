@@ -3,6 +3,7 @@ const { resAllUser, hashedPassword } = require("../utils/userUtils");
 const generator = require("generate-password");
 const responseData = require("../utils/response");
 const { requestUserDB } = require("./allQueryDB");
+const _emailSend = require("../helpers/_sendEmail");
 
 const userGetAll = async (access) => {
   const data = await requestUserDB();
@@ -54,7 +55,8 @@ const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
     [idLevel, nameUser, lastNameUser, emailUser, await hashedPassword(password)]
   );
 
-  console.log("envio a email la contraseña", password);
+  // TODO Registro de usuario por parte del administrador
+  await _emailSend(emailUser, nameUser);
   return { state: "create-user", data: await userGetAll() };
 };
 
@@ -82,7 +84,8 @@ const userRegister = async (
     [idUser[0].Users === 0 ? 1 : 3, nameUser, lastNameUser, emailUser, password]
   );
 
-  console.log("envio un daludo de bienvenida a email");
+  // TODO Registro por el mismo usuario
+  await _emailSend(emailUser, nameUser);
   return {
     state: "login",
     access: true,
@@ -108,7 +111,7 @@ const userUpdate = async (
 
   return {
     state: "edit-user",
-    data: await userGetAll(),
+    data: await getUserId(idUser),
   };
 };
 
