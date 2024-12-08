@@ -23,9 +23,12 @@ const postUser = async (request, response) => {
 };
 
 const getUserAll = async (request, response) => {
-  const { page } = request.query;
+  const { access, page } = request.query;
   try {
-    const data = page ? await userGetAllPage(page) : await userGetAll();
+    const data =
+      page && access
+        ? await userGetAllPage(access, page)
+        : await userGetAll(access);
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
