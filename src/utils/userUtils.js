@@ -9,7 +9,7 @@ function encryEmail(email) {
   return `${maskedLocalPart}@${domain}`;
 }
 
-function resAllUser(list) {
+function resAllUser(list, access) {
   return list.map(
     ({ idUser, idLevel, nameLevel, nameUser, lastNameUser, emailUser }) => ({
       idUser,
@@ -17,7 +17,7 @@ function resAllUser(list) {
       nameLevel,
       nameUser,
       lastNameUser,
-      emailUser: encryEmail(emailUser),
+      emailUser: access === "Administrador" ? emailUser : encryEmail(emailUser),
     })
   );
 }
