@@ -4,9 +4,15 @@ const {
 } = require("../controllers/productAuditController");
 
 const postAuditProduct = async (request, response) => {
-  const { idUser, idAction, oldData, newData } = request.body;
+  const { idUser, idProduct, idAction, oldData, newData } = request.body;
   try {
-    const data = await addAuditProduct(idUser, idAction, oldData, newData);
+    const data = await addAuditProduct(
+      idUser,
+      idProduct,
+      idAction,
+      oldData,
+      newData
+    );
     response.status(200).json(data);
   } catch (error) {
     response.status(400).json({ error: error.message });
