@@ -9,6 +9,7 @@ const {
 
 const postProduct = async (request, response) => {
   const {
+    idUser,
     nameProduct,
     codeProduct,
     priceProduct,
@@ -20,6 +21,7 @@ const postProduct = async (request, response) => {
   } = request.body;
   try {
     const data = await productCreate(
+      idUser,
       nameProduct,
       codeProduct,
       priceProduct,
