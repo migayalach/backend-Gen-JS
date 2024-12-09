@@ -30,7 +30,7 @@ const getUserId = async (idUser) => {
   if (!data.length) {
     throw Error(`El usuario actual no se encuentra registrado`);
   }
-  return data;
+  return data[0];
 };
 
 const userCreate = async (idLevel, nameUser, lastNameUser, emailUser) => {
@@ -86,6 +86,8 @@ const userRegister = async (
 
   // TODO Registro por el mismo usuario
   await _emailSend(emailUser, nameUser);
+  console.log(":D");
+  
   return {
     state: "login",
     access: true,
