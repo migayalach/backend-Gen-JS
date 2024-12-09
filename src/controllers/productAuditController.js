@@ -2,11 +2,19 @@ const pool = require("../database/conexion");
 const { clearAuditProduct } = require("../utils/productAuditUtils");
 const responseData = require("../utils/response");
 
-const addAuditProduct = async (idUser, idAction, oldData, newData) => {
+const addAuditProduct = async (
+  idProduct,
+  idUser,
+  idAction,
+  oldData,
+  newData
+) => {
   const currentDate = new Date();
+
   await pool.query(
-    `INSERT INTO productAction (idUser, idAction, timeAction, oldData, newData) VALUES (?, ?, ?, ?, ?)`,
+    `INSERT INTO productAction (idProduct, idUser, idAction, timeAction, oldData, newData) VALUES (?, ?, ?, ?, ?, ?)`,
     [
+      idProduct,
       idUser,
       idAction,
       currentDate,
