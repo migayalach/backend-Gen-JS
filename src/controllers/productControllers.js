@@ -1,7 +1,9 @@
 const pool = require("../database/conexion");
 const responseData = require("../utils/response");
+const { addAuditProduct } = require("./productAuditController");
 
 const productCreate = async (
+  idUser,
   nameProduct,
   codeProduct,
   priceProduct,
@@ -20,7 +22,7 @@ const productCreate = async (
     throw Error(`Este codigo ya se encuentra registrado`);
   }
 
-  await pool.query(
+  const [data] = await pool.query(
     `INSERT INTO product (nameProduct, codeProduct, priceProduct, urlProduct, stockProduct, madeProduct, descriptionProduct, dateIntroProduct) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       nameProduct,
@@ -33,7 +35,29 @@ const productCreate = async (
       dateIntroProduct,
     ]
   );
-  return { state: "create-product", data: await getAllProducts() };
+
+  await addAuditProduct(
+    (idProduct = data.insertId),
+    idUser,
+    1,
+    {},
+    {
+      idUser,
+      nameProduct,
+      codeProduct,
+      priceProduct,
+      urlProduct,
+      stockProduct,
+      madeProduct,
+      descriptionProduct,
+      dateIntroProduct,
+    }
+  );
+
+  return {
+    state: "create-product",
+    data: await getAllProducts(),
+  };
 };
 
 const getAllProducts = async (page) => {
