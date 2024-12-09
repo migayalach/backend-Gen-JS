@@ -4,7 +4,7 @@ const { postRegActivity } = require("./entryExitController");
 
 const loginApp = async (emailUser, passwordUser) => {
   const [data] = await pool.query(
-    `SELECT idUser, nameUser, passwordUser FROM user WHERE emailUser = ? `,
+    `SELECT u.idUser, l.nameLevel, u.nameUser, u.passwordUser FROM user u, level l WHERE u.idLevel = l.idLevel AND emailUser = ? `,
     [emailUser]
   );
 
@@ -24,6 +24,7 @@ const loginApp = async (emailUser, passwordUser) => {
     data: {
       idUser: data[0].idUser,
       nameUser: data[0].nameUser,
+      nameLevel: data[0].nameLevel,
       message: `Wellcome ${data[0].nameUser}`,
     },
   };
