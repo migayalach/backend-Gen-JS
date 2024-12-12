@@ -37,8 +37,8 @@ const productCreate = async (
   );
 
   await addAuditProduct(
-    (idProduct = data.insertId),
     idUser,
+    (idProduct = data.insertId),
     1,
     {},
     {
