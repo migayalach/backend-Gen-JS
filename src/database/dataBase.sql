@@ -68,8 +68,8 @@ create table entryExitUser(
 
 INSERT INTO level (nameLevel) VALUES 
 ('Administrador'), 
-('Vendedor'),
-('Dueño');
+('Dueño'),
+('Vendedor');
 
 INSERT INTO actions (nameAction) VALUES
 ('create'),
