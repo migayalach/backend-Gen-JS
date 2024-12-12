@@ -3,14 +3,13 @@ const { clearAuditProduct } = require("../utils/productAuditUtils");
 const responseData = require("../utils/response");
 
 const addAuditProduct = async (
-  idProduct,
   idUser,
+  idProduct,
   idAction,
   oldData,
   newData
 ) => {
   const currentDate = new Date();
-
   await pool.query(
     `INSERT INTO productAction (idProduct, idUser, idAction, timeAction, oldData, newData) VALUES (?, ?, ?, ?, ?, ?)`,
     [
