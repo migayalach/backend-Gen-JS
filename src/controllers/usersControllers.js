@@ -85,16 +85,17 @@ const userRegister = async (
   );
 
   // TODO Registro por el mismo usuario
-  await _emailSend(emailUser, nameUser);
-  console.log(":D");
-  
+  // await _emailSend(emailUser, nameUser);
+  const infoUser = await getUserId(data.insertId);
+
   return {
     state: "login",
     access: true,
     data: {
-      idUser: data.insertId,
-      nameUser,
-      message: `Wellcome ${nameUser}`,
+      idUser: infoUser.idUser,
+      nameUser: infoUser.nameUser,
+      nameLevel: infoUser.nameLevel,
+      message: `Wellcome ${infoUser.nameUser}`,
     },
   };
 };
